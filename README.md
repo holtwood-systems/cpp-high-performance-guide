@@ -25,6 +25,16 @@
 > **项目状态**：**stable**。教学作品完成，只修正确性 bug 与文档；权威状态注册表见
 > [holtwood-systems/portfolio](https://github.com/holtwood-systems/portfolio)。
 
+## ⚡ 核心亮点（30 秒速览）
+
+| 维度 | 内容 |
+| --- | --- |
+| **9 个主题域，三层结构** | 每个模块都带 `src/` 可运行示例 + `bench/` Google Benchmark 基准 + 测试，可阅读、可构建、可测量 |
+| **端到端案例：CPU GEMM 四阶段** | `examples/09-matrix-multiply/`：naive → tiling → SIMD(FMA) → OpenMP，一条完整的优化迭代叙事 |
+| **五条验证 preset** | debug / release / asan / tsan / ubsan 全矩阵，正确性与并发缺陷分开验证 |
+| **测量方法论** | Google Benchmark + perf + `perf_event_open` PMU 硬件计数器 + FlameGraph：一切性能结论先测量后声称 |
+| **与 GPU 主线同构** | CPU 侧的 cache line / 伪共享 ↔ GPU 侧的 bank conflict / 访存合并；roofline 思路两侧通用，是理解 [cuda-foundations](https://github.com/holtwood-systems/cuda-foundations) 与 [cuflash](https://github.com/holtwood-systems/cuflash) 优化叙事的地基 |
+
 ## 这个仓库解决什么问题
 
 关注那些"很容易被谈论、但不容易被验证"的 C++ 性能主题：
@@ -89,6 +99,28 @@ cmake --preset=ubsan && cmake --build build/ubsan && ctest --preset=ubsan
 - **文档站：** <https://holtwood-systems.github.io/cpp-high-performance-guide/>
 - **深度专题：** [`docs/zh/deep-dives/`](docs/zh/deep-dives/)
 - **API 参考：** [`docs/zh/reference/api.md`](docs/zh/reference/api.md)
+
+## 面试考点映射
+
+| 高频面试题 | 对应示例 |
+| --- | --- |
+| 什么是 false sharing？怎么定位与修复？ | [`examples/02-memory-cache/src/false_sharing.cpp`](examples/02-memory-cache/src/false_sharing.cpp) + 同名 bench |
+| AOS vs SOA 怎么选？对向量化有什么影响？ | [`examples/02-memory-cache/src/aos_vs_soa.cpp`](examples/02-memory-cache/src/aos_vs_soa.cpp) + `aos_soa_bench.cpp` |
+| C++ memory ordering：relaxed / acquire / release / seq_cst 差在哪？ | [`examples/05-concurrency/src/atomic_ordering.cpp`](examples/05-concurrency/src/atomic_ordering.cpp) |
+| 无锁队列怎么写？ABA 问题怎么处理？ | [`examples/05-concurrency/src/lock_free_queue.cpp`](examples/05-concurrency/src/lock_free_queue.cpp) |
+| 分支预测为什么影响性能？怎么减少 branch miss？ | [`examples/08-cpu-microarch/src/branch_prediction.cpp`](examples/08-cpu-microarch/src/branch_prediction.cpp) |
+| 依赖链 vs ILP：同样指令数为什么耗时差几倍？ | [`examples/08-cpu-microarch/src/dependency_chains.cpp`](examples/08-cpu-microarch/src/dependency_chains.cpp) |
+| 怎么用 PMU 计数器（ipc / cache-miss）定位瓶颈？ | [`examples/08-cpu-microarch/src/pmu_counters.cpp`](examples/08-cpu-microarch/src/pmu_counters.cpp)（`perf_event_open`） |
+| read / pread / mmap 的取舍？写缓冲为什么关键？ | `examples/07-io-performance/`（读路径对照 + 写缓冲开销） |
+| NUMA 与线程亲和怎么设置？ | [`examples/05-concurrency/src/numa_binding.cpp`](examples/05-concurrency/src/numa_binding.cpp) · `thread_affinity.cpp` |
+| 自动向量化为什么没发生？intrinsics 怎么用？ | `examples/04-simd-vectorization/`（SSE2/AVX2/AVX-512/NEON） |
+| CPU 上的 GEMM 优化路径怎么走？ | [`examples/09-matrix-multiply/`](examples/09-matrix-multiply/)：naive → tiling → SIMD(FMA) → OpenMP + `gemm_bench.cpp` 逐级量化 |
+
+> 方法论强调：本仓所有性能结论都要求「先测量、后声称」——每级优化都有独立
+> before/after 数字与正确性校验，负结果同样记录。这套习惯与 GPU 主线
+> （[cuda-foundations](https://github.com/holtwood-systems/cuda-foundations) 的
+> cuBLAS 对照、[cuflash](https://github.com/holtwood-systems/cuflash) 的
+> benchmark 证据协议）完全一致。
 
 ## 技术栈
 
