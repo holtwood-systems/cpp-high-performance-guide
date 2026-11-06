@@ -281,7 +281,10 @@ cmake --build build/tsan
 ctest --preset=tsan
 ```
 
-preset 强制使用 Clang（`CC=clang CXX=clang++`），并配置 `TSAN_OPTIONS=halt_on_error=1:ignore_noninstrumented_modules=1`（后者屏蔽 OpenMP 运行时等未插桩模块的已知误报）。TSan 和 ASan 不能同时使用。
+preset 强制使用 Clang（`CC=clang CXX=clang++`），并配置
+`TSAN_OPTIONS=halt_on_error=1:ignore_noninstrumented_modules=1` 与 `OMP_NUM_THREADS=1`。
+后者用于规避部分 libomp 版本未向 TSan 暴露 OpenMP barrier 所导致的栈帧误报；
+OpenMP 并行正确性由普通 `release` 测试覆盖，TSan lane 只验证串行内存安全。TSan 和 ASan 不能同时使用。
 
 ### UndefinedBehaviorSanitizer（UBSan）
 
