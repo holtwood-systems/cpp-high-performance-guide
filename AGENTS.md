@@ -1,8 +1,8 @@
 # cpp-high-performance-guide · Agent 约定
 
-仓库定位：`open-infra-ai` 组织第七个技术仓，CPU 侧 C++20 高性能工程教学
+仓库定位：`holtwood-systems` 组织第七个技术仓，CPU 侧 C++20 高性能工程教学
 （状态 **stable**，作品完成，只修正确性 bug 与文档）；权威状态注册表见
-[open-infra-ai/open-infra-ai](https://github.com/open-infra-ai/open-infra-ai)。
+[holtwood-systems/portfolio](https://github.com/holtwood-systems/portfolio)。
 
 ## 重要改动必须留笔记
 

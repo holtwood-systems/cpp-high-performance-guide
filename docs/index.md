@@ -10,5 +10,5 @@ hero:
       link: /zh/
     - theme: alt
       text: GitHub
-      link: https://github.com/open-infra-ai/cpp-high-performance-guide
+      link: https://github.com/holtwood-systems/cpp-high-performance-guide
 ---
