@@ -19,11 +19,17 @@
 </p>
 
 <p align="center">
-  通过可运行示例、基准测试和 VitePress 文档站，学习可验证的现代 C++20 性能工程。
+  C++20 系统性能工程的公开实现：每个优化结论都带可运行的示例、基准与测量协议。
 </p>
 
-> **项目状态**：**stable**。教学作品完成，只修正确性 bug 与文档；权威状态注册表见
+> **项目状态**：**stable**。九个主题域已完成，只修正确性 bug 与文档；权威状态注册表见
 > [holtwood-systems/portfolio](https://github.com/holtwood-systems/portfolio)。
+
+> **来处**：它整理的是一套 C++ 系统性能方法——cache line 与伪共享、SIMD、OpenMP
+> 并行结构、NUMA 亲和，以及 Google Benchmark + perf PMU 的测量协议。这套方法与我在
+> 大规模测序数据处理中的工作同源：同样先定位瓶颈，再改数据布局与并行结构，最后用
+> 测量证明收益。GEMM 四阶段案例（naive → tiling → SIMD → OpenMP）是这条方法链的
+> 完整演示。
 
 ## ⚡ 核心亮点（30 秒速览）
 
