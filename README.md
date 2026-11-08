@@ -25,12 +25,6 @@
 > **项目状态**：**stable**。九个主题域已完成，只修正确性 bug 与文档；权威状态注册表见
 > [holtwood-systems/portfolio](https://github.com/holtwood-systems/portfolio)。
 
-> **来处**：它整理的是一套 C++ 系统性能方法——cache line 与伪共享、SIMD、OpenMP
-> 并行结构、NUMA 亲和，以及 Google Benchmark + perf PMU 的测量协议。这套方法与我在
-> 大规模测序数据处理中的工作同源：同样先定位瓶颈，再改数据布局与并行结构，最后用
-> 测量证明收益。GEMM 四阶段案例（naive → tiling → SIMD → OpenMP）是这条方法链的
-> 完整演示。
-
 ## ⚡ 核心亮点（30 秒速览）
 
 | 维度 | 内容 |
@@ -141,3 +135,8 @@ cmake --preset=ubsan && cmake --build build/ubsan && ctest --preset=ubsan
 ## 贡献
 
 贡献流程与 hooks 配置见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+
+---
+
+> 本仓方法论的来源是大规模测序数据处理中的系统性能工程：先定位瓶颈，再改数据布局
+> 与并行结构，最后用测量证明收益。
